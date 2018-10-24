@@ -43,6 +43,7 @@ RUN apt-get update && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN apt-get update && apt-get install -my wget gnupg
 RUN apt-get update
 RUN apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -

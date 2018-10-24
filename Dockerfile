@@ -43,17 +43,6 @@ RUN apt-get update && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN cd $HOME/work;\
-    pip install octave_kernel sos sos-notebook scipy plotly dash dash_core_components dash_html_components dash_dangerously_set_inner_html dash-renderer flask==0.12.2;\
-    python -m sos_notebook.install;\
-    git clone --single-branch -b sos-javascript https://github.com/qMRLab/notebook_playground;\
-    cd notebook_playground;\
-    git clone https://github.com/neuropoly/qMRLab.git;\
-    chmod -R 777 $HOME/work/notebook_playground; \
-    octave --eval "cd qMRLab; \
-                      startup; \
-                      pkg list;"
-
 # replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
@@ -82,8 +71,24 @@ ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 # confirm installation
-RUN node -v
-RUN npm -v
+RUN node -v \
+    npm -v
+
+# Install IJavascript
+RUN npm install -g ijavascript \
+    npm rebuild \
+    ijsinstall --spec-path=full
+
+RUN cd $HOME/work;\
+    pip install octave_kernel sos sos-notebook scipy plotly dash dash_core_components dash_html_components dash_dangerously_set_inner_html dash-renderer flask==0.12.2;\
+    python -m sos_notebook.install;\
+    git clone --single-branch -b sos-javascript https://github.com/qMRLab/notebook_playground;\
+    cd notebook_playground;\
+    git clone https://github.com/neuropoly/qMRLab.git;\
+    chmod -R 777 $HOME/work/notebook_playground; \
+    octave --eval "cd qMRLab; \
+                      startup; \
+                      pkg list;"
 
 WORKDIR $HOME/work/notebook_playground
 

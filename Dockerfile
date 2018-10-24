@@ -75,9 +75,9 @@ RUN node -v \
     npm -v
 
 # Install IJavascript
-RUN npm install -g ijavascript \
-    npm rebuild \
-    ijsinstall --spec-path=full
+RUN npm install -g ijavascript
+RUN npm rebuild
+RUN ijsinstall --spec-path=full
 
 RUN cd $HOME/work;\
     pip install octave_kernel sos sos-notebook scipy plotly dash dash_core_components dash_html_components dash_dangerously_set_inner_html dash-renderer flask==0.12.2;\

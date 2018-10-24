@@ -54,6 +54,14 @@ RUN cd $HOME/work;\
                       startup; \
                       pkg list;"
 
+RUN apt-get purge --auto-remove nodejs npm node; \
+    rm -rf ~/.nvm; \
+    apt-get install nodejs-legacy npm; \
+    npm config set strict-ssl false; \
+    npm install -g ijavascript; \
+    npm rebuild; \
+    ijsinstall --spec-path=full
+
 WORKDIR $HOME/work/notebook_playground
 
 USER $NB_UID

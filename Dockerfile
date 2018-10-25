@@ -3,8 +3,6 @@ FROM agahkarakuzu/jnbase
 
 RUN npm install -g ijavascript;\
 	ijsinstall;\
-    cd $HOME/work;\
-    npm install plotly-notebook-js;
 
 CMD ijs --ip=* --debug
 
@@ -20,6 +18,9 @@ RUN cd $HOME/work;\
     octave --eval "cd qMRLab; \
                       startup; \
                       pkg list;"
+
+RUN cd $HOME/worknotebook_playground/;\
+    npm install plotly-notebook-js;
 
 WORKDIR $HOME/work/notebook_playground
 

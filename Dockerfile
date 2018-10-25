@@ -20,4 +20,4 @@ RUN cd $HOME/work; \
 
 WORKDIR $HOME/work/notebook_playground
 
-USER $NB_UID
+USER root

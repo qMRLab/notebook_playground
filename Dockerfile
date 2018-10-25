@@ -19,7 +19,7 @@ RUN cd $HOME/work;\
                       startup; \
                       pkg list;"
 
-RUN cd $HOME/worknotebook_playground/;\
+RUN cd $HOME/work/notebook_playground/;\
     npm install plotly-notebook-js;
 
 WORKDIR $HOME/work/notebook_playground

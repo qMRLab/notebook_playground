@@ -1,4 +1,5 @@
-FROM jupyter/base-notebook:8ccdfc1da8d5
+# specify the node base image with your desired version node:<version>
+FROM node:6
 
 USER root
 
@@ -43,12 +44,6 @@ RUN apt-get update && \
     apt-get autoremove &&  \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN npm install -g ijavascript
-
-CMD ijs --ip=* --debug
-
-EXPOSE 8888
-
 RUN cd $HOME/work;\
     pip install octave_kernel sos sos-notebook scipy plotly dash dash_core_components dash_html_components dash_dangerously_set_inner_html dash-renderer flask==0.12.2;\
     python -m sos_notebook.install; \
@@ -63,3 +58,5 @@ RUN cd $HOME/work;\
 WORKDIR $HOME/work/notebook_playground
 
 USER $NB_UID
+
+EXPOSE 8888

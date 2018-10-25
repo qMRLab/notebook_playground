@@ -3,6 +3,7 @@ FROM agahkarakuzu/jnbase
 
 RUN npm install -g ijavascript;\
 	ijsinstall;\
+    cd $HOME/work;\
     npm install plotly-notebook-js;
 
 CMD ijs --ip=* --debug

@@ -2,7 +2,7 @@
 FROM agahkarakuzu/jnbase
 
 RUN npm install -g ijavascript;\
-	ijsinstall;\
+	ijsinstall;
 
 CMD ijs --ip=* --debug
 

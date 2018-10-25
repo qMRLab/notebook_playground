@@ -13,7 +13,7 @@ RUN cd $HOME/work;  \
    git clone --single-branch -b sos-javascript-fresh https://github.com/qMRLab/notebook_playground;  \
    cd notebook_playground; \
    git clone https://github.com/neuropoly/qMRLab.git;  \
-   chmod -R 777 $HOME/work/notebook_playground;   \
+   chmod +ux $HOME/work/notebook_playground;   \
    octave --eval “cd qMRLab;   \
                      startup;   \
                      pkg list;”

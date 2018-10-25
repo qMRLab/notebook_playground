@@ -43,15 +43,24 @@ RUN apt-get update && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# replace shell with bash so we can source files
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-
-RUN apt-get update && apt-get install -my wget gnupg
+# install wget
 RUN apt-get update
-RUN apt-get install -y curl
-RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-RUN apt-get install -y nodejs libzmq3-dev build-essential && npm install -g ijavascript
-RUN ijs --ijs-install-kernel
+RUN apt-get install -y wget
+
+# install nodejs
+WORKDIR /tmp
+RUN wget https://nodejs.org/download/release/v0.12.9/node-v0.12.9-linux-x64.tar.gz
+RUN tar xzf node-v0.12.9-linux-x64.tar.gz
+RUN sudo cp -rp node-v0.12.9-linux-x64 /usr/local/
+RUN sudo ln -s /usr/local/node-v0.12.9-linux-x64 /usr/local/node
+ENV PATH /usr/local/node/bin:$PATH
+
+# install jupyter-nodejs
+RUN mkdir -p  $HOME/.ipython/kernels/nodejs
+RUN wget https://github.com/notablemind/jupyter-nodejs/releases/download/v1.1.0/jupyter-nodejs-1.1.0.tgz
+RUN tar xf jupyter-nodejs-1.1.0.tgz
+WORKDIR /tmp/package
+RUN npm install && node install.js
 
 RUN cd $HOME/work;\
     pip install octave_kernel sos sos-notebook scipy plotly dash dash_core_components dash_html_components dash_dangerously_set_inner_html dash-renderer flask==0.12.2;\

@@ -1,20 +1,23 @@
+FROM agahkarakuzu/jnbase
 
-FROM python:2.7-alpine 
+RUN npm install -g ijavascript;\
+    ijsinstall
 
-RUN apk update; apk upgrade; rm -rf /var/cache/apk/* 
-RUN apk --update add bash alpine-sdk zeromq-dev nodejs 
-RUN pip install jupyter 
-RUN npm install -g ijavascript 
+CMD ijs --ip=* --debug
 
-RUN adduser -h /home/jupyter -D jupyter && \ 
-    chown -R jupyter:jupyter /home/jupyter 
-USER jupyter 
-ENV HOME /home/jupyter 
+EXPOSE 8888
 
-RUN jupyter notebook --generate-config && \ 
-    echo "c.NotebookApp.ip = '*'" >> /home/jupyter/.jupyter/jupyter_notebook_config.py && \ 
-    echo "c.NotebookApp.open_browser = False" >> /home/jupyter/.jupyter/jupyter_notebook_config.py && \ 
-    echo "c.NotebookApp.password = u'sha1:37c14f4a2b90:0742999935c4297b7016ae0c31e2b16c3d919d52'" >> /home/jupyter/.jupyter/jupyter_notebook_config.py 
-WORKDIR /home/jupyter/work 
-EXPOSE 8888 
-ENTRYPOINT ["/usr/bin/ijs"]  
+RUN cd $HOME/work;\
+   pip install octave_kernel sos sos-notebook scipy plotly dash dash_core_components dash_html_components dash_dangerously_set_inner_html dash-renderer flask==0.12.2;\
+   python -m sos_notebook.install;\
+   git clone --single-branch -b sos-javascript https://github.com/qMRLab/notebook_playground;\
+   cd notebook_playground;\
+   git clone https://github.com/neuropoly/qMRLab.git;\
+   chmod -R 777 $HOME/work/notebook_playground; \
+   octave --eval “cd qMRLab; \
+                     startup; \
+                     pkg list;”
+
+WORKDIR $HOME/work/notebook_playground
+
+USER $NB_UID

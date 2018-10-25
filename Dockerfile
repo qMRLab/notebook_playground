@@ -1,5 +1,7 @@
 FROM agahkarakuzu/jnbase
 
+USER root
+
 RUN npm install -g ijavascript; \
     ijsinstall
 

@@ -43,24 +43,11 @@ RUN apt-get update && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# install wget
-RUN apt-get update
-RUN apt-get install -y wget
+RUN npm install -g ijavascript
 
-# install nodejs
-WORKDIR /tmp
-RUN wget https://nodejs.org/download/release/v0.12.9/node-v0.12.9-linux-x64.tar.gz
-RUN tar xzf node-v0.12.9-linux-x64.tar.gz
-RUN sudo cp -rp node-v0.12.9-linux-x64 /usr/local/
-RUN sudo ln -s /usr/local/node-v0.12.9-linux-x64 /usr/local/node
-ENV PATH /usr/local/node/bin:$PATH
+CMD ijs --ip=* --debug
 
-# install jupyter-nodejs
-RUN mkdir -p  $HOME/.ipython/kernels/nodejs
-RUN wget https://github.com/notablemind/jupyter-nodejs/releases/download/v1.1.0/jupyter-nodejs-1.1.0.tgz
-RUN tar xf jupyter-nodejs-1.1.0.tgz
-WORKDIR /tmp/package
-RUN npm install && node install.js
+EXPOSE 8888
 
 RUN cd $HOME/work;\
     pip install octave_kernel sos sos-notebook scipy plotly dash dash_core_components dash_html_components dash_dangerously_set_inner_html dash-renderer flask==0.12.2;\
